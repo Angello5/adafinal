@@ -202,8 +202,16 @@ void PageManager::prepareFiles() {
 
 
 void PageManager::saveData(const void* src, size_t size) {
-    if (size > dataRegionSize) throw runtime_error("Buffer overflow: Data size exceeds mapped region size.");
+    if (size > dataRegionSize) {
+        cerr<<"Desborde de Buffer: Data size :" <<size<< "excede el tamana de la region mapeada "<<dataRegionSize<<" uu"<<endl;
+        throw runtime_error("Buffer overflow: Data size exceeds mapped region size.");
+    }
     memcpy(dataRegion, src, size);
+    if(msync(dataRegion, dataRegionSize, MS_SYNC)== -1){
+        perror("Error al sincroizar la data al archivo");
+        throw runtime_error("Failed to sync data to file");
+    }
+    cout<<"Data guardado satisfactoriamente siiiiu"<<endl;
 }
 
 std::vector<UserData> PageManager::loadData() {
