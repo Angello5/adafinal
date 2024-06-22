@@ -294,10 +294,10 @@ void Btree::insert(uint32_t k, const shared_ptr<UserData>& data) {
     }
 }
 
-void Btree::remove(uint32_t k) {
+bool Btree::remove(uint32_t k) {
     if (root == nullptr) {
         cout << "El árbol está vacío.\n";
-        return;
+        return false; // Retorna falso si el árbol está vacío
     }
     root->remove(k);
     if (root->keys.size() == 0) {
@@ -309,5 +309,7 @@ void Btree::remove(uint32_t k) {
         }
         delete tmp;
     }
+    return true; // Retorna verdadero si se realiza la operación, ajustar según la lógica específica de eliminación
 }
+
 

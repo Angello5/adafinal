@@ -9,6 +9,7 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
+#include <unordered_set>
 #include <cstring>
 
 using namespace std;
@@ -96,9 +97,15 @@ string GenerateSaveData::generateEstadoCivilAleatorio() {
 }
 
 void GenerateSaveData::generateData() {
+    unordered_set<uint32_t> dniSet;
     users.reserve(numRecords);
     for (size_t i = 0; i < numRecords; ++i) {
-        uint32_t dni = generateRandomDNI();
+        uint32_t dni;
+        do{
+            dni = generateRandomDNI();
+        }while(dniSet.find(dni) != dniSet.end());
+        dniSet.insert(dni);
+        
         string nombreCompleto = generateNombreAleatorio();
         string apellido = generateApellidoAleatorio();
         string nacionalidad = generateNacionalidadAleatoria();

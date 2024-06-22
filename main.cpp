@@ -13,6 +13,7 @@
 #include "userData.h"
 #include <iostream>
 #include <vector>
+#include <memory>
 //#include <boost/make_shared.hpp>
 //#include <boost/interprocess/file_mapping.hpp>
 //#include <boost/interprocess/mapped_region.hpp>
@@ -23,7 +24,7 @@ using namespace std;
 //using namespace boost::interprocess;
 
 void displayMenu() {
-    cout << "Seleccione una opción:" << endl;
+    cout << "/nSeleccione una opción:" << endl;
     cout << "1. Añadir usuario" << endl;
     cout << "2. Eliminar usuario" << endl;
     cout << "3. Buscar usuario" << endl;
@@ -43,18 +44,26 @@ int main() {
 
         // Acceder a los datos generados y guardarlos
         const auto& generatedUsers = generateSaveData.getGeneratedData();
+        cout << "Guardando datos generados en el archivo..." << endl;
         pageManager.saveData(generatedUsers.data(), generatedUsers.size() * sizeof(UserData));
+        cout << "Datos guardados correctamente." << endl;
 
         // Cargar los datos guardados para uso posterior
+        cout << "Cargando datos desde el archivo..." << endl;
         vector<UserData> loadedUsers = pageManager.loadData();
+        cout << "Datos cargados correctamente. Total de usuarios cargados: " << loadedUsers.size() << endl;
 
         Btree tree(10);
         cuckooHashing cuckoo(10003);
 
+        cout << "Insertando datos en estructuras de datos..." << endl;
         for (const auto& user : loadedUsers) {
-            cuckoo.insert(user.dni);
+            if (!cuckoo.insert(user.dni)) {
+                cout << "Error al insertar el DNI en Cuckoo Hashing: " << user.dni << endl;
+            }
             tree.insert(user.dni, make_shared<UserData>(user));
         }
+        cout << "Datos insertados correctamente en las estructuras de datos." << endl;
 
         int option;
         uint32_t dni;
@@ -78,12 +87,28 @@ int main() {
                     }
                     break;
                 }
-                case 2:
-                    // Aquí deberías agregar código para eliminar un usuario
+                case 2: {
+                    cout << "Ingrese el DNI del usuario a eliminar: ";
+                    cin >> dni;
+                    if (cuckoo.remove(dni)) {
+                        tree.remove(dni);
+                        cout << "Usuario eliminado exitosamente." << endl;
+                    } else {
+                        cout << "Error: No se encontró el usuario." << endl;
+                    }
                     break;
-                case 3:
-                    // Aquí deberías agregar código para buscar un usuario
+                }
+                case 3: {
+                    cout << "Ingrese el DNI del usuario a buscar: ";
+                    cin >> dni;
+                    auto user = cuckoo.search(dni);
+                    if (user) {
+                        cout << "Usuario encontrado: " << user->nombreCompleto << endl;
+                    } else {
+                        cout << "Usuario no encontrado." << endl;
+                    }
                     break;
+                }
                 case 4:
                     cout << "Saliendo..." << endl;
                     break;

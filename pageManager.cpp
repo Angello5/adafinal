@@ -169,7 +169,7 @@ PageManager::~PageManager() {
 
 void PageManager::prepareFiles() {
     // Asegurar el tamaño mínimo inicial del archivo (por ejemplo, suficiente para 100 registros)
-    size_t initialSize = 100 * sizeof(UserData); // Ajusta este tamaño según tus necesidades
+    size_t initialSize = 10000 * sizeof(UserData); // Ajusta este tamaño según tus necesidades
 
     dataFileDescriptor = open(dataFilename.c_str(), O_RDWR | O_CREAT, 0666);
     if (dataFileDescriptor == -1) throw runtime_error("Fallo al abrir o crear la data del archivo uu");
@@ -203,12 +203,12 @@ void PageManager::prepareFiles() {
 
 void PageManager::saveData(const void* src, size_t size) {
     if (size > dataRegionSize) {
-        cerr<<"Desborde de Buffer: Data size :" <<size<< "excede el tamana de la region mapeada "<<dataRegionSize<<" uu"<<endl;
+        cerr<<"Desborde de Buffer: Data size :" <<size<< " excede el tamana de la region mapeada "<<dataRegionSize<<" uu"<<endl;
         throw runtime_error("Buffer overflow: Data size exceeds mapped region size.");
     }
     memcpy(dataRegion, src, size);
     if(msync(dataRegion, dataRegionSize, MS_SYNC)== -1){
-        perror("Error al sincroizar la data al archivo");
+        perror("Error al sincronizar la data al archivo");
         throw runtime_error("Failed to sync data to file");
     }
     cout<<"Data guardado satisfactoriamente siiiiu"<<endl;

@@ -62,7 +62,7 @@ class Btree
         void traverse();
         void insert(uint32_t k, const shared_ptr<UserData>& data);
         shared_ptr<UserData> search(uint32_t k);
-        void remove(uint32_t k);
+        bool remove(uint32_t k);
 };
 
 

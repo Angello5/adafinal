@@ -25,6 +25,7 @@ public:
     bool insert(uint32_t key);
     shared_ptr<UserData> search(uint32_t key) const;
     bool remove(uint32_t key);
+    void rehash( );
     
 private:
     vector<shared_ptr<UserData>> table1;
