@@ -37,7 +37,7 @@ int main() {
     const string indexFilename = "index.bin";
 
     try {
-        GenerateSaveData generateSaveData(dataFilename, indexFilename, 1000);  // Número reducido para pruebas
+        GenerateSaveData generateSaveData(dataFilename, indexFilename, 100);  // Número reducido para pruebas
         generateSaveData.generateData();
 
         PageManager pageManager(dataFilename, indexFilename);
