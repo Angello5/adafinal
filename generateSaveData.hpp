@@ -35,14 +35,14 @@ private:
     PageManager pageManager;
     
     uint32_t generateRandomDNI();
-    string generateNombreAleatorio();
-    string generateApellidoAleatorio();
-    string generateNacionalidadAleatoria();
-    string generateLugarNacimientoAleatorio();
-    string generateDireccionAleatoria();
-    string generateTelefonoAleatorio();
-    string generateCorreoAleatorio(const string& nombre, const string& apellido);
-    string generateEstadoCivilAleatorio();
+    void generateNombreAleatorio(char* result);
+    void generateApellidoAleatorio(char* result);
+    void generateNacionalidadAleatoria(char* result);
+    void generateLugarNacimientoAleatorio(char* result);
+    void generateDireccionAleatoria(char* result);
+    void generateTelefonoAleatorio(char* result);
+    void generateCorreoAleatorio(const char* nombre, const char* apellido, char* result);
+    void generateEstadoCivilAleatorio(char* result);
 };
 
 

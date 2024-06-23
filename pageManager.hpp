@@ -54,7 +54,7 @@ private:
     vector<IndexEntry> index;
     void prepareFiles( );
     void prepareSingleFiles(const string& filname);
-    void mapFile(int& fileDescriptor, void*& mappedRegion, const std::string& filename);
+    void mapFile(int& fileDescriptor, void*& mappedRegion, const string& filename);
     void unmapFile(void* mappedRegion, size_t size);
     void closeDataFile();
     void closeIndexFile();
@@ -74,6 +74,8 @@ private:
 #include "userData.h"
 #include <cstdint>
 
+using namespace std;
+
 struct IndexEntry {
     uint32_t dni;
     size_t position;
@@ -81,25 +83,25 @@ struct IndexEntry {
 
 class PageManager {
 private:
-    std::string dataFilename;
-    std::string indexFilename;
+    string dataFilename;
+    string indexFilename;
     int dataFileDescriptor;
     int indexFileDescriptor;
     void* dataRegion;
     void* indexRegion;
     size_t dataRegionSize;
     size_t indexRegionSize;
-    std::vector<IndexEntry> indexEntries;
+    vector<IndexEntry> indexEntries;
 
     void prepareFiles();
-    void mapFile(int& fileDescriptor, void*& mappedRegion, size_t& regionSize, const std::string& filename);
+    void mapFile(int& fileDescriptor, void*& mappedRegion, size_t& regionSize, const string& filename);
     void unmapFile(void*& mappedRegion, size_t size);
     void closeFile(int& fileDescriptor);
 public:
-    PageManager(const std::string& dataFilename, const std::string& indexFilename);
+    PageManager(const string& dataFilename, const string& indexFilename);
     ~PageManager();
-    void saveData(const void* src, size_t size);
-    std::vector<UserData> loadData();
+    void saveData(const vector<UserData>& users);
+    vector<UserData> loadData();
     void saveIndexData();
     void loadIndexData();
     void closeDataFile();
