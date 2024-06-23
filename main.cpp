@@ -152,7 +152,7 @@ int main() {
     const string indexFilename = "index.bin";
 
     try {
-        GenerateSaveData generateSaveData(dataFilename, indexFilename, 1000);  // Número reducido para pruebas
+        GenerateSaveData generateSaveData(dataFilename, indexFilename, 10000);  // Número reducido para pruebas
         generateSaveData.generateData();
 
         PageManager pageManager(dataFilename, indexFilename);
@@ -227,7 +227,8 @@ int main() {
                     cin >> dni;
                     auto user = cuckoo.search(dni);
                     if (user) {
-                        cout << "Usuario encontrado: " << user->nombreCompleto << endl;
+                        cout << "Usuario encontrado: " << endl;
+                        user->printUsers();
                     } else {
                         cout << "Usuario no encontrado." << endl;
                     }

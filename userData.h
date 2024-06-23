@@ -45,7 +45,7 @@ struct UserData {
         strncpy(email, em, sizeof(email) - 1);
         strncpy(estadoCivil, ec, sizeof(estadoCivil) - 1);
     }
-    void printUsers( ){
+    void printUsers( )const{
         cout<<"DNI: "<< dni<<endl;
         cout<<"Nombre: "<<nombreCompleto<<endl;
         cout<<"Apellido: "<<apellido<<endl;

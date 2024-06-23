@@ -122,7 +122,7 @@ public:
 
 struct IndexEntry {
     uint32_t dni;
-    size_t position;
+    streampos offset;
 };
 
 class PageManager {
