@@ -65,7 +65,7 @@ private:
 #endif
 */
 
-#ifndef PAGE_MANAGER_HPP
+/*#ifndef PAGE_MANAGER_HPP
 #define PAGE_MANAGER_HPP
 
 #include <string>
@@ -106,6 +106,38 @@ public:
     void loadIndexData();
     void closeDataFile();
     void closeIndexFile();
+};
+
+#endif // PAGE_MANAGER_HPP
+
+*/
+#ifndef PAGE_MANAGER_HPP
+#define PAGE_MANAGER_HPP
+
+#include <string>
+#include <vector>
+#include <cstdint>
+#include "userData.h"
+#include <cstdint>
+
+struct IndexEntry {
+    uint32_t dni;
+    size_t position;
+};
+
+class PageManager {
+private:
+    std::string dataFilename;
+    std::string indexFilename;
+    std::vector<IndexEntry> indexEntries;
+
+public:
+    PageManager(const std::string& dataFilename, const std::string& indexFilename);
+    ~PageManager();
+    void saveData(const std::vector<UserData>& users);
+    std::vector<UserData> loadData();
+    void saveIndexData();
+    void loadIndexData();
 };
 
 #endif // PAGE_MANAGER_HPP
